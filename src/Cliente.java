@@ -1,3 +1,5 @@
+package src;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class Cliente {
         try {
             //La conexión se crea apartir del mismo socket
             customerSocket = new Socket(HOST, PUERTO);
-            System.out.println("Cliente conectado");
+            System.out.println("src.Cliente conectado");
 
             //Comunicación del cliente al servidor, se lee al cliente, se reciben mensajes
             dataInputStream = new DataInputStream(customerSocket.getInputStream());
@@ -43,7 +45,7 @@ public class Cliente {
 
             //Cerrando el socket cliente
             customerSocket.close();
-            System.out.println("Cliente desconectado");
+            System.out.println("src.Cliente desconectado");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

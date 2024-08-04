@@ -1,3 +1,5 @@
+package src;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class Servidor {
         try {
             //El socket del servidor se conecta al puerto
             serverSocket = new ServerSocket(PUERTO_PRINCIPAL);
-            System.out.println("Servidor Principal conectado en el puerto " + PUERTO_PRINCIPAL);
+            System.out.println("src.Servidor Principal conectado en el puerto " + PUERTO_PRINCIPAL);
             while(true){
                 //El socket servidor espera o escuha las peticiones del cliente, se guarda el socket cliente
                 customerSocket = serverSocket.accept();
