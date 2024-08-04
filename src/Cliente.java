@@ -3,6 +3,7 @@ package src;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class Cliente {
         try {
             //La conexión se crea apartir del mismo socket
             customerSocket = new Socket(HOST, PUERTO);
-            System.out.println("src.Cliente conectado");
+            System.out.println("Cliente conectado");
 
             //Comunicación del cliente al servidor, se lee al cliente, se reciben mensajes
             dataInputStream = new DataInputStream(customerSocket.getInputStream());
@@ -41,11 +42,11 @@ public class Cliente {
             //El cliente espera a que el servidor envie un mensaje
             String mensajeServidor = dataInputStream.readUTF();
             //Se imprime el mensaje leido del servidor
-            System.out.println("Mensaje del servidor: " + mensajeServidor);
+            System.out.println("La hipotenusa es: " + mensajeServidor);
 
             //Cerrando el socket cliente
             customerSocket.close();
-            System.out.println("src.Cliente desconectado");
+            System.out.println("Cliente desconectado");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
