@@ -10,7 +10,7 @@ public class Servidor {
 
     //Puerto al que se conecta el socket del servidor y los otros dos
     static final int PUERTO_PRINCIPAL = 5000;
-    static final int PUERTO_SERVIDOR1 = 5001;
+    static final int PUERTO_SERVIDOR1 = 5003;
     static final int PUERTO_SERVIDOR2 = 5002;
     static String HOST = "127.0.0.1";
 

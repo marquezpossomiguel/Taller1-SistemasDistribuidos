@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.*;
 
 public class Servidor1 {
-    private static final int PUERTO = 5001;
+    private static final int PUERTO = 5003;
 
     public static void main(String[] args) {
         try {
