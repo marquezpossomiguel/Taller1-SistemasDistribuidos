@@ -2,6 +2,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Cliente {
     public static void main(String[] args) {
@@ -13,6 +14,7 @@ public class Cliente {
         //Canal de comunicación de los sockets
         DataInputStream dataInputStream;
         DataOutputStream dataOutputStream;
+        Scanner scanner = new Scanner(System.in);
 
         try {
             //La conexión se crea apartir del mismo socket
@@ -24,8 +26,16 @@ public class Cliente {
             //Comunicación del servidor al cliente, se escribe al cliente, se envian mensajes
             dataOutputStream = new DataOutputStream(customerSocket.getOutputStream());
 
-            //El cliente le envia un mensaje al servidor
-            dataOutputStream.writeUTF("Hola mundo desde el cliente");
+            System.out.println("Ingrese la medida en cm del cateto uno");
+            String dato1 = scanner.nextLine();
+            System.out.println("Ingrese la medida en cm del cateto dos");
+            String dato2 = scanner.nextLine();
+
+            // Enviar los datos al servidor
+            dataOutputStream.writeUTF(dato1);
+            dataOutputStream.writeUTF(dato2);
+
+
             //El cliente espera a que el servidor envie un mensaje
             String mensajeServidor = dataInputStream.readUTF();
             //Se imprime el mensaje leido del servidor
@@ -36,6 +46,8 @@ public class Cliente {
             System.out.println("Cliente desconectado");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            scanner.close();
         }
     }
 }
