@@ -5,6 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Servidor {
+
+    //Puerto al que se conecta el socket del servidor y los otros dos
+    static final int PUERTO_PRINCIPAL = 5000;
+    static final int PUERTO_SERVIDOR1 = 5001;
+    static final int PUERTO_SERVIDOR2 = 5002;
+    static String HOST = "127.0.0.1";
+
     public static void main(String[] args) {
         //Socket del servidor
         ServerSocket serverSocket;
@@ -13,13 +20,13 @@ public class Servidor {
         //Canal de comunicación de los sockets
         DataInputStream dataInputStream;
         DataOutputStream dataOutputStream;
-        //Puerto al que se conecta el socket del servidor
-        final int PUERTO = 5000;
+
+
 
         try {
             //El socket del servidor se conecta al puerto
-            serverSocket = new ServerSocket(PUERTO);
-            System.out.println("Servidor conectado");
+            serverSocket = new ServerSocket(PUERTO_PRINCIPAL);
+            System.out.println("Servidor Principal conectado en el puerto " + PUERTO_PRINCIPAL);
             while(true){
                 //El socket servidor espera o escuha las peticiones del cliente, se guarda el socket cliente
                 customerSocket = serverSocket.accept();
@@ -31,13 +38,20 @@ public class Servidor {
                 dataOutputStream = new DataOutputStream(customerSocket.getOutputStream());
 
                 //El servidor espera a que el cliente envie un mensaje
-                String mensajeCliente = dataInputStream.readUTF();
+                String dato1 = dataInputStream.readUTF();
+                String dato2 = dataInputStream.readUTF();
 
-                //Se imprime el mensaje leido del cliente
-                System.out.println("Mensaje del cliente: " + mensajeCliente);
+                double cateto1 = Integer.parseInt(dato1);
+                double cateto2 = Integer.parseInt(dato2);
+
+                // Enviar a Servidor1 para calcular suma de cuadrados
+                double sumaCuadrados = enviarAServidor1(cateto1, cateto2);
+
+                // Enviar a Servidor2 para calcular raíz cuadrada
+                double hipotenusa = enviarAServidor2(sumaCuadrados);
 
                 //El servidor le envia un mensaje al cliente
-                dataOutputStream.writeUTF("Recibi el mensaje, desde el servidor");
+                dataOutputStream.writeUTF(String.valueOf(hipotenusa));
 
                 //Cerrando el socket cliente
                 customerSocket.close();
@@ -47,4 +61,31 @@ public class Servidor {
             throw new RuntimeException(e);
         }
     }
+
+    private static double enviarAServidor1(double cateto1, double cateto2) throws IOException {
+        Socket socket = new Socket(HOST, PUERTO_SERVIDOR1);
+        DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
+        DataInputStream entrada = new DataInputStream(socket.getInputStream());
+
+        salida.writeDouble(cateto1);
+        salida.writeDouble(cateto2);
+
+        double resultado = entrada.readDouble();
+        socket.close();
+        return resultado;
+    }
+
+    private static double enviarAServidor2(double sumaCuadrados) throws IOException {
+        Socket socket = new Socket(HOST, PUERTO_SERVIDOR2);
+        DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
+        DataInputStream entrada = new DataInputStream(socket.getInputStream());
+
+        salida.writeDouble(sumaCuadrados);
+
+        double resultado = entrada.readDouble();
+        socket.close();
+        return resultado;
+    }
+
+
 }
